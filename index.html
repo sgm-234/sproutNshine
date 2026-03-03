@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SproutNshine — Affirmation Buddy</title>
+<meta name="description" content="Your cozy pixel-art affirmation buddy 🌱 — pops out to float on your desktop">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="script.js"></script>
+</head>
+
+<body>
+
+<!-- LAUNCHER (stays in browser tab) -->
+<div id="launcher">
+  <div class="l-glow a"></div>
+  <div class="l-glow b"></div>
+  <span class="l-particle" style="left:7%;top:12%;font-size:20px;animation-duration:5.2s;animation-delay:0s">🌱</span>
+  <span class="l-particle" style="left:84%;top:18%;font-size:14px;color:#4aaa30;animation-duration:4s;animation-delay:.9s">✦</span>
+  <span class="l-particle" style="left:15%;top:74%;font-size:17px;animation-duration:6.1s;animation-delay:.4s">🌿</span>
+  <span class="l-particle" style="left:78%;top:68%;font-size:13px;color:#3a8a20;animation-duration:4.7s;animation-delay:1.3s">★</span>
+  <span class="l-particle" style="left:48%;top:6%;font-size:15px;animation-duration:5.8s;animation-delay:.7s">☘️</span>
+  <span class="l-particle" style="left:4%;top:48%;font-size:18px;animation-duration:5s;animation-delay:1.9s">🌱</span>
+  <span class="l-particle" style="left:91%;top:55%;font-size:11px;color:#6adb48;animation-duration:3.8s;animation-delay:.2s">◆</span>
+  <span class="l-particle" style="left:60%;top:85%;font-size:12px;animation-duration:4.4s;animation-delay:1.1s">✦</span>
+
+  <div class="l-card">
+    <div class="l-icon">🌱</div>
+    <div class="l-title">SPROUTNSHINE</div>
+    <div class="l-sub">AFFIRMATION BUDDY</div>
+    <div class="l-rule"></div>
+    <div class="l-tag">GROW A LITTLE BRIGHTER<br>EVERY DAY ✦</div>
+    <button class="btn-pop" id="btnPop">🪟 &nbsp;POP OUT TO DESKTOP</button>
+    <div class="l-status" id="lStatus">
+      ✦ FLOATING ON YOUR DESKTOP ✦<br>
+      <span style="font-size:5px;color:#3a8830">drag anywhere · always on top</span>
+    </div>
+    <div class="l-note">
+      Chrome &amp; Edge · floats above all windows<br>
+      just like Opera GX video pop-out
+    </div>
+    <div id="noSupport">
+      ⚠ BROWSER NOT SUPPORTED<br><br>
+      <span style="font-size:5px">use Chrome 116+ or Edge 116+</span>
+    </div>
+  </div>
+</div>
+
+<!-- BUDDY TEMPLATE (hidden — cloned into PiP window on pop-out) -->
+<template id="buddyTpl">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+  <div class="widget" id="widget">
+
+    <!-- SPLASH -->
+    <div id="screenSplash" class="screen active">
+      <div class="splash-grid"></div>
+      <div class="splash-glow"></div>
+      <span class="splash-particle" style="left:10%;top:20%;font-size:14px;animation-duration:4.2s;animation-delay:0s;">🌱</span>
+      <span class="splash-particle" style="left:82%;top:25%;font-size:11px;color:#4aaa30;animation-duration:3.6s;animation-delay:.8s;">✦</span>
+      <span class="splash-particle" style="left:20%;top:70%;font-size:13px;color:#3a7a20;animation-duration:5.1s;animation-delay:.3s;">★</span>
+      <span class="splash-particle" style="left:74%;top:60%;font-size:12px;animation-duration:4.8s;animation-delay:1.1s;">🌿</span>
+      <span class="splash-particle" style="left:50%;top:10%;font-size:10px;color:#4a9a28;animation-duration:3.9s;animation-delay:.5s;">◆</span>
+      <span class="splash-particle" style="left:88%;top:50%;font-size:14px;animation-duration:4.5s;animation-delay:1.4s;">☘️</span>
+      <div class="splash-content">
+        <div class="splash-leaf">🌱</div>
+        <div class="splash-title">SPROUTNSHINE</div>
+        <div class="splash-sub">AFFIRMATION BUDDY</div>
+        <div class="splash-divider"></div>
+        <div class="splash-tagline">GROW A LITTLE BRIGHTER<br>EVERY DAY ✦</div>
+        <div class="splash-bar-wrap">
+          <div class="splash-bar-label" id="splashLabel">SPROUTING...</div>
+          <div class="splash-bar"><div class="splash-bar-fill" id="splashFill"></div></div>
+        </div>
+        <div class="splash-version">v1.0.0 — MADE WITH 🌿</div>
+      </div>
+    </div>
+
+    <!-- GREETING -->
+    <div id="screenGreeting" class="screen">
+      <p class="greet-time" id="greetTime"></p>
+      <div class="greet-sprite" id="greetSprite"></div>
+      <p class="greet-msg" id="greetMsg"></p>
+      <p class="greet-name" id="greetNameTag"></p>
+      <button class="btn-greet-ok" id="btnGreetOk">LET'S GO ▶</button>
+    </div>
+
+    <!-- SETUP -->
+    <div id="screenSetup" class="screen">
+      <p class="setup-title">CHOOSE<br>YOUR BUDDY</p>
+      <p class="setup-sub">pick a sprite! 🎮</p>
+      <div class="critter-grid">
+        <button class="pick-btn" data-c="avocado"><span class="pick-icon">🥑</span><span class="pick-label">AVO</span></button>
+        <button class="pick-btn" data-c="watermelon"><span class="pick-icon">🍉</span><span class="pick-label">MELON</span></button>
+        <button class="pick-btn" data-c="strawberry"><span class="pick-icon">🍓</span><span class="pick-label">BERRY</span></button>
+        <button class="pick-btn" data-c="pear"><span class="pick-icon">🍐</span><span class="pick-label">PEAR</span></button>
+        <button class="pick-btn" data-c="lychee"><span class="pick-icon">🍇</span><span class="pick-label">GRAPE</span></button>
+      </div>
+      <p class="name-label">NAME</p>
+      <input class="name-input" id="nameInput" type="text" maxlength="10" placeholder="ENTER NAME" autocomplete="off"/>
+      <button class="btn-start" id="btnStart">▶ START</button>
+    </div>
+
+    <!-- MAIN -->
+    <div id="screenMain" class="screen">
+      <div class="top-bar">
+        <span class="greeting-name" id="greetingName"></span>
+        <button class="btn-settings" id="btnSettings">⚙️</button>
+      </div>
+      <div class="critter-container" id="critterContainer"></div>
+      <div class="name-tag" id="nameTag"></div>
+      <div class="affirmation" id="affirmation"></div>
+      <div class="divider"></div>
+      <div class="actions">
+        <button class="btn-hide" id="btnHide">✕</button>
+        <button class="btn-next" id="btnNext">NEXT ▶</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</template>
+
+</body>
+</html>
